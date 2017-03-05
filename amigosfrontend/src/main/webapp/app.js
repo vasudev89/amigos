@@ -39,6 +39,13 @@ app.config(function($routeProvider){
 		
 	})
 	
+	.when('/groupchat',{
+	
+		templateUrl : 'groupchat/groupchat.html',
+		controller  : 'GroupChatController'
+		
+	})
+	
 	
 	.when('/aboutus',{
 		templateUrl : 'template/aboutus.html'
