@@ -13,6 +13,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -99,10 +100,10 @@ public class ChatController {
 	}
 
 	//get the logged-in userId and send it to angular to subscribe the queue
-	@RequestMapping( value = "getids", method = RequestMethod.GET)
-	public ResponseEntity<String> getIds(Principal p) {
+	@RequestMapping( value = "getids", method = RequestMethod.POST)
+	public ResponseEntity<String> getIds(@RequestBody JSONObject data,Principal p) {
 
-		User user = userdao.getUserByEmail(p.getName());
+		User user = userdao.getUserByEmail( data.get("Email").toString() );
 
 		long userId = user.getUserId();
 		this.userId = userId;

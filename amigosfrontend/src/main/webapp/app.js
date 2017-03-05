@@ -24,21 +24,23 @@ app.config(function($routeProvider){
 		templateUrl : '',
 		controller  : ''
 		
+	})
+	.when('/chat',{
+	
+		templateUrl : 'chat/chat.html',
+		controller  : 'ChatController'
 		
-	},function(){
-		alert('Hi');
 	})
 	
 	
-	.when('/register',{
-		
-		templateUrl : 'c_user/register.html',
-		controller  : 'UserController'
-	})
 	.when('/aboutus',{
 		templateUrl : 'template/aboutus.html'
 	})
 	.when('/friends',{
+		templateUrl : 'friends/friend.html',
+		controller  :  'FriendController'
+	})
+	.when('/friends/:secondUser',{
 		templateUrl : 'friends/friend.html',
 		controller  :  'FriendController'
 	})
@@ -54,11 +56,23 @@ app.config(function($routeProvider){
 		templateUrl : 'blogs/blog.html',
 		controller: 'BlogController'
 	})
+	.when('/blogs/:secondUser',{
+		templateUrl : 'blogs/blog.html',
+		controller: 'BlogController'
+	})
 	.when('/forums',{
 		templateUrl : 'forums/forums.html',
 		controller: 'ForumController'
 	})
+	.when('/forums/:secondUser',{
+		templateUrl : 'forums/forums.html',
+		controller: 'ForumController'
+	})
 	.when('/profile',{
+		templateUrl : 'profile/profile.html',
+		controller: 'ProfileController'
+	})
+	.when('/profile/:secondUser',{
 		templateUrl : 'profile/profile.html',
 		controller: 'ProfileController'
 	})

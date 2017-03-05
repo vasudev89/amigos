@@ -1,10 +1,25 @@
 	
-	app.controller('BlogController',['$scope','BlogService','$location',
+	app.controller('BlogController',['$scope','BlogService','$location','$window','$routeParams',
                                  
-    function($scope,$BlogService,$location){
+    function($scope,$BlogService,$location,$window,$routeParams){
 		console.log("BlogController.......");
 		
+		console.log( $routeParams.secondUser );
 		//
+		
+		if($routeParams.secondUser != undefined)
+		{
+			$scope.secondUser = true;
+			$scope.currentUser = $routeParams.secondUser;
+			console.log( $scope.secondUser );
+		}
+		else
+		{
+			$scope.secondUser = false;
+			$scope.currentUser = $window.sessionStorage.getItem("currentUser");
+		}
+		
+		
 		$scope.editedItem = {}; 
 		$scope.editrow = function($index) {
 			$scope.istrue = true;
@@ -12,14 +27,14 @@
 			angular.copy($scope.blogsdata[$index], $scope.editedItem);
 		}
 		//current logged-in user email
-		$scope.currentUser = "${currentuser}";
+		//$scope.currentUser = "${currentuser}";
 		//post the blog
 		$scope.postBlog = function() {
 			console.log("in the post blog");
 			$scope.UserBlog = {
 				BlogTitle : $scope.user.blogTitle,
 				BlogDesc : $scope.user.blogDesc,
-				"Email": "vasudev@gmail.com",
+				"Email": $scope.currentUser,
 			};
 			$BlogService.postBlog($scope.UserBlog).then(
 					function(response) {

@@ -1,20 +1,34 @@
 	
-	app.controller('FriendController',['$scope','FriendService','$location',
+	app.controller('FriendController',['$scope','FriendService','$location','$window','$routeParams',
                                  
-    function($scope,$FriendService,$location){
+    function($scope,$FriendService,$location,$window,$routeParams){
 		console.log("FriendController.......");
 		
 		//
+		
 		$scope.viewFriendRequset = viewFriendRequset;
 	     $scope.acceptFriendRequset = acceptFriendRequset;
 	     $scope.rejectFriendRequset = rejectFriendRequset;
 	        
-	     getFriends({"Email":"vasudev@gmail.com"});
-	     countFriendRequests({"Email":"vasudev@gmail.com"});
+	    if($routeParams.secondUser != undefined)
+		{
+				$scope.secondUser = true;
+				$scope.currentUser = $routeParams.secondUser;
+				console.log( $scope.secondUser );
+		}
+		else
+		{
+			$scope.secondUser = false;
+			$scope.currentUser = $window.sessionStorage.getItem("currentUser");
+		}
+	     
+	     
+	     getFriends({"Email":$scope.currentUser});
+	     countFriendRequests({"Email":$scope.currentUser});
 		 
 		 function viewFriendRequset() {
 			 
-			 $FriendService.viewFriendRequset( {"Email":"vasudev@gmail.com"} )
+			 $FriendService.viewFriendRequset( {"Email":$scope.currentUser} )
 						.then(function(response) {
 								$scope.friendrequest = response;
 								
@@ -28,11 +42,11 @@
 			}
 		 
 		 function acceptFriendRequset(friendId) {
-			 $FriendService.acceptFriendRequset(friendId,"vasudev@gmail.com")
+			 $FriendService.acceptFriendRequset(friendId,$scope.currentUser)
 						.then(function(response) {
 							$scope.friendrequest = response;
-							 getFriends({"Email":"vasudev@gmail.com"});
-							 countFriendRequests({"Email":"vasudev@gmail.com"});
+							 getFriends({"Email":$scope.currentUser});
+							 countFriendRequests({"Email":$scope.currentUser});
 								},
 								function(errResponse) {
 									console.log('Error fetching Users');
@@ -42,11 +56,11 @@
 			}
 		
 		 $scope.removeFriendRequset = function(friendId) {
-			 $FriendService.removeFriendRequset(friendId,"vasudev@gmail.com")
+			 $FriendService.removeFriendRequset(friendId,$scope.currentUser)
 						.then(function(response) {
 							$scope.friendrequest = response;
-							 getFriends({"Email":"vasudev@gmail.com"});
-							 countFriendRequests({"Email":"vasudev@gmail.com"});
+							 getFriends({"Email":$scope.currentUser});
+							 countFriendRequests({"Email":$scope.currentUser});
 								},
 								function(errResponse) {
 									console.log('Error fetching Users');
@@ -57,7 +71,7 @@
 		
 		 
 		 function rejectFriendRequset(friendId) {
-			 $FriendService.rejectFriendRequset({"FriendId": friendId ,"Email":"vasudev@gmail.com"})
+			 $FriendService.rejectFriendRequset({"FriendId": friendId ,"Email":$scope.currentUser})
 						.then(function(response) {
 							$scope.friendrequest = response;
 								},
@@ -108,7 +122,7 @@
 		 
 		 //$scope.sendFriendRequset = sendFriendRequset;
 			
-			getAllUsers({"Email":"vasudev@gmail.com"});
+			getAllUsers({"Email":$scope.currentUser});
 			
 		/* 	var arrayText = [];
 			$scope.calff = function(item) {
@@ -152,10 +166,10 @@
 			 $scope.sendFriendRequset = function(FriendId) {
 				console.log(FriendId);
 				
-				$FriendService.sendFriendRequset({"FriendId":FriendId,"Email":"vasudev@gmail.com"}).then(function(response) {
+				$FriendService.sendFriendRequset({"FriendId":FriendId,"Email":$scope.currentUser}).then(function(response) {
 					$scope.status = response.status;
-					getFriends({"Email":"vasudev@gmail.com"});
-					countFriendRequests({"Email":"vasudev@gmail.com"});
+					getFriends({"Email":$scope.currentUser});
+					countFriendRequests({"Email":$scope.currentUser});
 					
 				}, function(errResponse) {
 					console.log('Error fetching Users');

@@ -1,10 +1,22 @@
 	
-	app.controller('ForumController',['$scope','ForumService','$location',
+	app.controller('ForumController',['$scope','ForumService','$location','$window','$routeParams',
                                  
-    function($scope,ForumService,$location){
+    function($scope,ForumService,$location,$window,$routeParams){
 		console.log("ForumController.......");
 		
 		//
+		if($routeParams.secondUser != undefined)
+		{
+				$scope.secondUser = true;
+				$scope.currentUser = $routeParams.secondUser;
+				console.log( $scope.secondUser );
+		}
+		else
+		{
+			$scope.secondUser = false;
+			$scope.currentUser = $window.sessionStorage.getItem("currentUser");
+		}
+		
 		$scope.postForum = postForum;
 		$scope.listForum = listForum;
 		$scope.postComment = postComment;
@@ -17,7 +29,7 @@
 			console.log("in the post forum");
 			$scope.PostForum = {
 				ForumTitle : $scope.user.forumTitle,
-				"Email" : "vasudev@gmail.com"
+				"Email" : $scope.currentUser
 			};
 			
 			console.log($scope.PostForum);
@@ -47,7 +59,7 @@
 			this.PostComment = {
 					  ForumID : $scope.selectedForum,
 					 Comment : post.comment,
-					 Email: "vasudev@gmail.com"
+					 Email: $scope.currentUser
 				};
 			console.log(this.PostComment);
 			ForumService.postComment(this.PostComment).then(function(response){

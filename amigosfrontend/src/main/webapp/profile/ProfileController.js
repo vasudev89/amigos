@@ -34,22 +34,34 @@
 		}
 	} ]);
 
-	app.controller('ProfileController',['$scope','$filter','ProfileService','$location','fileUpload',
+	app.controller('ProfileController',['$scope','$filter','ProfileService','$location','$window','$routeParams','fileUpload',
                                  
-    function($scope,$filter,$ProfileService,$location,$fileUpload){
+    function($scope,$filter,$ProfileService,$location,$window,$routeParams,$fileUpload){
 		console.log("ProfileController.......");
 		
 		//
+		if($routeParams.secondUser != undefined)
+		{
+				$scope.secondUser = true;
+				$scope.currentUser = $routeParams.secondUser;
+				console.log( $scope.secondUser );
+		}
+		else
+		{
+			$scope.secondUser = false;
+			$scope.currentUser = $window.sessionStorage.getItem("currentUser");
+		}
+		
 		var date = new Date();
 		$scope.time = $filter('date')(new Date(), 'HH');
 		//get user data when page loads
 		
-		$scope.LoginData = {"Email" : "vasudev@gmail.com"};
+		$scope.LoginData = {"Email" : $scope.currentUser};
 		
 		console.log( $scope.LoginData );
 		
 		$ProfileService
-				.userData({"Email" : "vasudev@gmail.com"})
+				.userData({"Email" : $scope.currentUser})
 				.then(
 						function(response) {
 							//console.log(response);
@@ -175,7 +187,7 @@
 					.log("in the update password update");
 			$ProfileService
 					.updatePassword(
-							{"Email":"vasudev@gmail.com","NewPassword":$scope.userdetails.newpassword})
+							{"Email":$scope.currentUser,"NewPassword":$scope.userdetails.newpassword})
 					.then(
 							function(response) {
 								try {

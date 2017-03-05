@@ -134,7 +134,7 @@
 
 
 
-			<div>
+			<div ng-show="!secondUser">
 				<button type="button" class="btn btn-link"
 					ng-click="openFileChooser();">Change Picture</button>
 
@@ -297,7 +297,7 @@
 			</div>
 		</div>
 	
-		<div class="col-md-3">
+		<div class="col-md-3" ng-show="!secondUser">
 			<button type="button" class="btn btn-danger btn-sm"
 				data-toggle="modal" data-target="#myModal2">Change Password</button>
 			<br /> <br />
@@ -392,7 +392,7 @@
 		</div>
 	
 	
-	<div class="container">
+	<div class="container" ng-show="!secondUser">
 
 		<security:authorize access="hasRole('ROLE_ADMIN')">
 		<div>
