@@ -80,8 +80,9 @@ app.service('ChatService',['$http','$q','$rootScope','$window', function($http,$
     };
     
     var currentUser = $window.sessionStorage.getItem("currentUser");
+    var secondUser = $window.sessionStorage.getItem("secondUser");
     
-    getids({"Email":currentUser});
+    getids({"Email":currentUser,"FriendId":secondUser});
     initialize();
     return service;
 	

@@ -104,9 +104,23 @@ public class ChatController {
 	public ResponseEntity<String> getIds(@RequestBody JSONObject data,Principal p) {
 
 		User user = userdao.getUserByEmail( data.get("Email").toString() );
-
+		
+		try
+		{
+			User friend = userdao.getUserByEmail( data.get("FriendId").toString() );
+			long friendId = friend.getUserId();
+			this.friendId = friendId;
+		}
+		catch(Exception e)
+		{
+			this.friendId = 0;
+		}
+		
+		
 		long userId = user.getUserId();
 		this.userId = userId;
+		
+		
 
 		JSONObject json = new JSONObject();
 		json.put("userId", userId);

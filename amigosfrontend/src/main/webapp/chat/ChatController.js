@@ -4,6 +4,13 @@
     function($scope,$ChatService,$location,$window,$routeParams){
 		console.log("ChatController.......");
 		
+		if($routeParams.secondUser != undefined)
+		{
+				$window.sessionStorage.setItem("secondUser",$routeParams.secondUser);
+		}
+
+		$scope.currentUser = $window.sessionStorage.getItem("currentUser");
+		
 		//
 		
 		$scope.messages = [];
@@ -22,7 +29,7 @@
 		});*/
 	    
 	    $scope.addMessage = function() {
-	      $ChatService.send($scope.message);
+	      $ChatService.send($scope.message,$scope.secondUser);
 	      $scope.message = "";
 	    };
 	    

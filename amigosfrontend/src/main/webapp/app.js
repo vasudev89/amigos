@@ -32,6 +32,13 @@ app.config(function($routeProvider){
 		
 	})
 	
+	.when('/chat/:secondUser',{
+	
+		templateUrl : 'chat/chat.html',
+		controller  : 'ChatController'
+		
+	})
+	
 	
 	.when('/aboutus',{
 		templateUrl : 'template/aboutus.html'
